@@ -9,14 +9,16 @@ Details:
 
 # modules
 from facts.queries import getFact
-from routing.format import newEmail
+from routing.emails import Email
 
 def main():
     rand_fact = getFact("facts")            # retrieve random fact
     daily_fact = getFact("factoftheday")   # get fact of the day
 
     # initialize a new email and send it with the facts
-    newEmail(random_fact=rand_fact, fact_of_the_day=daily_fact)
+    email = Email()
+    email.createEmail(random_fact=rand_fact, fact_of_the_day=daily_fact)
+    email.sendEmail()
 
 if __name__ == "__main__":
     main()
