@@ -17,7 +17,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 # env variables
-from config import sender, recipient, password, host, port
+from config import sender, recipients, password, host, port
 
 
 # contains all methods for formatting and sending the email
@@ -32,7 +32,7 @@ class Email():
         # set email headers
         self.message["Subject"] = f"Your Fact of the Day: {date.isoformat(date.today())}"
         self.message["From"] = sender
-        self.message["To"] = recipient
+        self.message["To"] = ", ".join(recipients)
 
         # read and format payload as html
         html = open("routing/payload.html", "r", encoding="utf-8")
@@ -51,10 +51,13 @@ class Email():
             ) as smtp_server:
                 smtp_server.starttls()
                 smtp_server.login(user=sender, password=password)
-                smtp_server.sendmail(from_addr=sender, to_addrs=recipient, msg=self.message.as_string())
+                smtp_server.sendmail(
+                    from_addr=sender, 
+                    to_addrs=recipients, 
+                    msg=self.message.as_string())
                 smtp_server.quit()
             
-            print("Email Sent Succefully!")
+            print("Email(s) Sent Succefully!")
 
         except smtplib.SMTPAuthenticationError:
             raise Exception(f"SMTP Authentication Error, try again...")

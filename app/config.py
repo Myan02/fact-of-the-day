@@ -18,7 +18,7 @@ api_key = os.getenv("API_KEY")
 api_url_base = os.getenv("API_URL_BASE")
 
 sender = os.getenv("SENDER")
-recipient = os.getenv("RECIPIENT")
+recipients = os.getenv("RECIPIENTS").split(",")
 password = os.getenv("PASSWORD")
 host = os.getenv("HOST")
 port = os.getenv("PORT")
