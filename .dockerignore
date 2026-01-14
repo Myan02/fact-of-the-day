@@ -1,0 +1,15 @@
+# virtual env
+app/venv
+
+# env variables
+.env
+
+# caching
+__pycache__
+
+# compiled bytecode
+*.pyc
+
+# git
+.git
+.gitignore
