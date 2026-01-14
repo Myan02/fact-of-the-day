@@ -1,3 +1,12 @@
+"""
+Date: 01/13/2026
+Author: Michael Baburyan
+
+Details: 
+    - load environment variables from .env file
+    - set vars for modules in app to use
+"""
+
 import os
 from dotenv import load_dotenv
 
@@ -11,3 +20,5 @@ api_url_base = os.getenv("API_URL_BASE")
 sender = os.getenv("SENDER")
 recipient = os.getenv("RECIPIENT")
 password = os.getenv("PASSWORD")
+host = os.getenv("HOST")
+port = os.getenv("PORT")
