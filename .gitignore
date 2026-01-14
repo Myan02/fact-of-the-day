@@ -1,0 +1,13 @@
+# virtual environments
+.venv
+
+# env variables
+.env
+
+# caching
+__pycache__
+
+# docker
+.dockerignore
+dockerfile
+
