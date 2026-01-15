@@ -28,15 +28,15 @@ class Email():
         self.message = MIMEMultipart()
     
     # create and send new email
-    def createEmail(self, random_fact: str, fact_of_the_day: str) -> None:
+    def createEmail(self, params: dict) -> None:
         # set email headers
-        self.message["Subject"] = f"Your Fact of the Day: {date.isoformat(date.today())}"
+        self.message["Subject"] = f"Your Morning Update: {date.isoformat(date.today())}"
         self.message["From"] = sender
         self.message["To"] = ", ".join(recipients)
 
         # read and format payload as html
         html = open("routing/payload.html", "r", encoding="utf-8")
-        payload = html.read().format(random_fact=random_fact, fact_of_the_day=fact_of_the_day)
+        payload = html.read().format(**params)
         html.close()
 
         # attach the html payload 

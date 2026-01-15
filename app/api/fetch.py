@@ -4,14 +4,15 @@ Author: Michael Baburyan
 
 Details: 
     - fetch data from different apis
-    - return data as a string
-    - data differs based on api endpoint provided as parameter
+    - return data as a string or pandas dataframes
+    - data differs based on api endpoint or parameters
 """
 
 import requests
-from weather_params import params
-from config import api_key_fact, api_url_base_fact, api_url_base_weather, openmeteo
+import pandas as pd
 
+from api.weather_configs import getParams, getHourlyWeather, getDailyWeather
+from config import api_key_fact, api_url_base_fact, api_url_base_weather, openmeteo
 
 # return a fact
 def getFact(endpoint: str) -> str:
@@ -21,17 +22,25 @@ def getFact(endpoint: str) -> str:
     except Exception as e:
         raise Exception(f"Bad Response: {e}")
     
-    # initial response format: [{"fact": "..."}]
+    # response format: [{"fact": "..."}]
     return response[0]["fact"]
 
-def getWeather():
+# return weather for the day
+def getWeather() -> tuple[pd.DataFrame, ...]:
     try:
-        response = openmeteo.weather_api(api_url_base_weather, params=params)
+        # request weather info form api, input api url and parameters of the endpoint query
+        responses = openmeteo.weather_api(api_url_base_weather, params=getParams())
     except Exception as e:
         raise Exception(f"Bad Response: {e}")
 
-    response = response[0]
+    # set response to info locale, 0 for first and only requested location
+    response = responses[0]
 
-    hourly = response.Hourly()
+    # configure data into pandas dataframes
+    hourly_dataframe = getHourlyWeather(response)
+    daily_dataframe = getDailyWeather(response)
+
+    # response format: (DataFrame, DataFrame)
+    return hourly_dataframe, daily_dataframe
     
 

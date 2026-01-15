@@ -6,18 +6,26 @@ Details:
     - call getFact from queries to retrieve facts
     - send an email with those facts
 """
-
-# modules
-from app.api.fetch import getFact
+from api.fetch import getFact, getWeather
 from routing.emails import Email
 
 def main():
-    rand_fact = getFact("facts")            # retrieve random fact
-    daily_fact = getFact("factoftheday")   # get fact of the day
+    # retrieve data from apis
+    random_fact = getFact("facts")
+    fact_of_the_day = getFact("factoftheday")
+    hourly_weather, daily_weather = getWeather()
 
-    # initialize a new email and send it with the facts
+    # set email parameters as dict
+    email_parameters = {
+        "random_fact": random_fact,
+        "fact_of_the_day": fact_of_the_day,
+        "hourly_weather": hourly_weather,
+        "daily_weather": daily_weather
+    }
+
+    # initialize a new email and send it with params
     email = Email()
-    email.createEmail(random_fact=rand_fact, fact_of_the_day=daily_fact)
+    email.createEmail(email_parameters)
     email.sendEmail()
 
 if __name__ == "__main__":
