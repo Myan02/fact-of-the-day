@@ -8,7 +8,7 @@ Details:
 """
 
 # modules
-from facts.queries import getFact
+from app.api.fetch import getFact
 from routing.emails import Email
 
 def main():
