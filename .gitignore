@@ -6,4 +6,5 @@
 
 # caching
 __pycache__
+*.sqlite
 

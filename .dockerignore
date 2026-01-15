@@ -6,6 +6,7 @@ app/venv
 
 # caching
 __pycache__
+*.sqlite
 
 # compiled bytecode
 *.pyc
