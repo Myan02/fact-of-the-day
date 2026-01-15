@@ -36,8 +36,13 @@ def getHourlyWeather(response: WeatherApiResponse) -> str:
 	hourly_precipitation_probability = hourly.Variables(0).ValuesAsNumpy()
 	hourly_precipitation = hourly.Variables(1).ValuesAsNumpy()
 
-	# create dict to store response data
-	hourly_data = {}
+	# create dict to store response data with times
+	hourly_data = {"date": pd.date_range(
+		start = pd.to_datetime(hourly.Time(), unit = "s", utc = True),
+		end =  pd.to_datetime(hourly.TimeEnd(), unit = "s", utc = True),
+		freq = pd.Timedelta(seconds = hourly.Interval()),
+		inclusive = "left"
+	)}
 
 	# add response data to dict
 	hourly_data["Chance of Rain"] = hourly_precipitation_probability
