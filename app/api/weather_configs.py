@@ -11,15 +11,16 @@ Details:
 import pandas as pd
 import numpy
 from openmeteo_sdk.WeatherApiResponse import WeatherApiResponse
+from config import latitude, longitude, timezone
 
 # weather parameters for NY, taken form the api documentation
 def getParams() -> dict:
 	params = {
-		"latitude": 40.7433,
-		"longitude": -73.855,
+		"latitude": latitude,
+		"longitude": longitude,
 		"daily": ["temperature_2m_max", "temperature_2m_min", "uv_index_max", "sunset"],
 		"hourly": ["precipitation_probability", "precipitation"],
-		"timezone": "America/New_York",
+		"timezone": timezone,
 		"forecast_days": 1,
 		"wind_speed_unit": "mph",
 		"temperature_unit": "fahrenheit",

@@ -35,6 +35,12 @@ port = os.getenv("PORT")
 
 # ----- set up weather api configs ----- #
 
+# API instance and caching
 cache_session = requests_cache.CachedSession(".cache", expire_after=3600)  # cache for 1 hour
 retry_session = retry(cache_session, retries=5, backoff_factor=0.2)        # retry failed requests
 openmeteo = openmeteo_requests.Client(session=retry_session)               # openmeteo client with custom session
+
+# API params, update with your city coordinates and timezone
+latitude = 40.7433
+longitude = -73.855
+timezone = "America/New_York"
