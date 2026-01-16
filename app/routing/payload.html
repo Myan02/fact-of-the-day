@@ -5,12 +5,29 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Email Payload</title>
+        <style>
+            table.dataframe {{
+                border-collapse: collapse;
+                width: 100%;
+                font-size: 14px;
+            }}
+
+            table.dataframe th, table.dataframe td {{
+                border: 1px solid #ccc;
+                padding: 6px;
+                text-align: center;
+            }}
+
+            table.dataframe th {{
+                background-color: #f2f2f2;
+            }}
+        </style>
     </head>
 
     <body>
         <h1>Good Morning!</h1>
 
-        <h2>Here's the daily weather report</h2>
+        <h2>Here's the daily weather report ☀️</h2>
         <div>
             {daily_weather}
             <h4>Chance of Precipitation:</h4>
