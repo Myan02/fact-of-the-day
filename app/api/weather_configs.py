@@ -37,22 +37,23 @@ def getHourlyWeather(response: WeatherApiResponse) -> str:
 	hourly_precipitation = hourly.Variables(1).ValuesAsNumpy()
 
 	# create dict to store response data with times
-	hourly_data = {"date": pd.date_range(
+	hourly_data = {"time": pd.date_range(
 		start = pd.to_datetime(hourly.Time(), unit = "s", utc = True),
 		end =  pd.to_datetime(hourly.TimeEnd(), unit = "s", utc = True),
 		freq = pd.Timedelta(seconds = hourly.Interval()),
 		inclusive = "left"
-	)}
+	).strftime("%H:00")}
 
 	# add response data to dict
 	hourly_data["Chance of Rain"] = hourly_precipitation_probability
 	hourly_data["Inches of Rain"] = hourly_precipitation
 
 	# create pandas dataframe from dict; convert to html
-	hourly_dataframe = pd.DataFrame(data = hourly_data).to_html(
+	hourly_dataframe = pd.DataFrame(data = hourly_data).reset_index(drop=True).to_html(
 		index=False,
-		border=0,
-		classes="dataframe"
+		border=1,
+		classes="dataframe",
+		justify="center"
 	)
 
 	# return string html
@@ -63,8 +64,8 @@ def getDailyWeather(response: WeatherApiResponse) -> str:
 
 	# pull daily data from response; see parameters for schema 
 	daily = response.Daily()
-	daily_temperature_2m_max = daily.Variables(0).ValuesAsNumpy().round(1)
-	daily_temperature_2m_min = daily.Variables(1).ValuesAsNumpy().round(1)
+	daily_temperature_2m_max = daily.Variables(0).ValuesAsNumpy().round(0)
+	daily_temperature_2m_min = daily.Variables(1).ValuesAsNumpy().round(0)
 	daily_uv_index_max = daily.Variables(2).ValuesAsNumpy()
 
 	# sunset time returned as unix timestamp, use pandas to convert to ISO format
@@ -77,15 +78,15 @@ def getDailyWeather(response: WeatherApiResponse) -> str:
 	daily_data = {}
 
 	# add response data to dict
-	daily_data["Temperature High"] = daily_temperature_2m_max
-	daily_data["Temperature Low"] = daily_temperature_2m_min
+	daily_data["Max Temp"] = daily_temperature_2m_max
+	daily_data["Min Temp"] = daily_temperature_2m_min
 	daily_data["UV Index"] = daily_uv_index_max
 	daily_data["Sunset"] = daily_sunset
 
 	# create pandas dataframe from dict; convert to html
 	daily_dataframe = pd.DataFrame(data = daily_data).to_html(
 		index=False,
-		border=0,
+		border=1,
 		classes="dataframe"
 	)
 
