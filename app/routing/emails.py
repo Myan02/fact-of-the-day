@@ -8,15 +8,12 @@ Details:
     - Send email through smtp protocol
 """
 
-# used to get the current date in the email subject
 from datetime import date
 
-# smtp and email modules
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-# env variables
 from config import sender, recipients, password, host, port
 
 

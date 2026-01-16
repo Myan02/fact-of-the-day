@@ -10,6 +10,7 @@ Details:
 
 import pandas as pd
 import numpy
+
 from openmeteo_sdk.WeatherApiResponse import WeatherApiResponse
 from config import latitude, longitude, timezone
 
@@ -29,13 +30,13 @@ def getParams() -> dict:
 
 	return params
 
-# Process hourly data. The order of variables needs to be the same as requested.
+# process hourly data. The order of variables needs to be the same as requested.
 def getHourlyWeather(response: WeatherApiResponse) -> str:
 
 	# pull hourly data from response; see parameters for schema 
 	hourly = response.Hourly()
-	hourly_precipitation_probability = hourly.Variables(0).ValuesAsNumpy()
-	hourly_precipitation = hourly.Variables(1).ValuesAsNumpy()
+	hourly_precipitation_probability = hourly.Variables(0).ValuesAsNumpy().astype(int)
+	hourly_precipitation = hourly.Variables(1).ValuesAsNumpy().round(1)
 
 	# create dict to store response data with times
 	hourly_data = {"time": pd.date_range(
@@ -46,8 +47,8 @@ def getHourlyWeather(response: WeatherApiResponse) -> str:
 	).strftime("%H:00")}
 
 	# add response data to dict
-	hourly_data["Chance of Rain"] = hourly_precipitation_probability
-	hourly_data["Inches of Rain"] = hourly_precipitation
+	hourly_data["Chance of Rain"] = hourly_precipitation_probability.astype(str) + " %"
+	hourly_data["Inches of Rain"] = hourly_precipitation.astype(str) + " Inches"
 
 	# create pandas dataframe from dict; convert to html
 	hourly_dataframe = pd.DataFrame(data = hourly_data).reset_index(drop=True).to_html(
@@ -57,16 +58,16 @@ def getHourlyWeather(response: WeatherApiResponse) -> str:
 		justify="center"
 	)
 
-	# return string html
+	# return html as string
 	return hourly_dataframe
 
-# Process daily data. The order of variables needs to be the same as requested.
+# process daily data. The order of variables needs to be the same as requested.
 def getDailyWeather(response: WeatherApiResponse) -> str:
 
 	# pull daily data from response; see parameters for schema 
 	daily = response.Daily()
-	daily_temperature_2m_max = daily.Variables(0).ValuesAsNumpy().round(0)
-	daily_temperature_2m_min = daily.Variables(1).ValuesAsNumpy().round(0)
+	daily_temperature_2m_max = daily.Variables(0).ValuesAsNumpy().astype(int)
+	daily_temperature_2m_min = daily.Variables(1).ValuesAsNumpy().astype(int)
 	daily_uv_index_max = daily.Variables(2).ValuesAsNumpy()
 
 	# sunset time returned as unix timestamp, use pandas to convert to ISO format
@@ -79,8 +80,8 @@ def getDailyWeather(response: WeatherApiResponse) -> str:
 	daily_data = {}
 
 	# add response data to dict
-	daily_data["Max Temp"] = daily_temperature_2m_max
-	daily_data["Min Temp"] = daily_temperature_2m_min
+	daily_data["Max Temp"] = daily_temperature_2m_max. astype(str) + " °F"
+	daily_data["Min Temp"] = daily_temperature_2m_min.astype(str) + " °F"
 	daily_data["UV Index"] = daily_uv_index_max
 	daily_data["Sunset"] = daily_sunset
 
@@ -91,5 +92,5 @@ def getDailyWeather(response: WeatherApiResponse) -> str:
 		classes="dataframe"
 	)
 
-	# return string html
+	# return html as string
 	return daily_dataframe

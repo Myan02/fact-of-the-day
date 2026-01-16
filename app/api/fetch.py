@@ -25,7 +25,7 @@ def getFact(endpoint: str) -> str:
     # response format: [{"fact": "..."}]
     return response[0]["fact"]
 
-# return weather for the day
+# return weather of the day
 def getWeather() -> tuple[pd.DataFrame, ...]:
     try:
         # request weather info form api, input api url and parameters of the endpoint query
