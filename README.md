@@ -31,14 +31,14 @@
 
 Daily Update is a simple tool used to setup and format informational emails. The current configurations allow the user to send emails containing a summary of the weather and a fun fact. What makes this project truly <em>shine</em> is its semi-modular structure and easy-to-read code. 
 
-Don't care about fun facts (lame btw), just don't use the fun fact function and delete it from the payload. 
-Want to update the weather to your location, just update the coordinates and timezone. 
+If you don't care about fun facts (you're lame btw), just don't use the fun fact function and delete it from the payload. 
+Want to update the weather to your location, just change the coordinates and timezone to your preferred values. 
   
 Here's a list of things you can do with Daily Update:
  
-- Retrieve any information you want from the internet (must find a public API) and send it to others in an email</li>
-- Set up a scheduler on a device (using something like cron) to get a daily update about the day</li>
-- Containerize using Docker for easy building and execution</li>
+- Retrieve any information you want from the internet (must find a public API) and send it to others in an email
+- Set up a scheduler on a device (using something like cron) to get a daily update about the day
+- Containerize using Docker for easy building and execution
 
 ### Public APIs Used
 
@@ -117,7 +117,7 @@ python main.py
 ### Building with Docker
 
 To containerize the project, make sure you have docker installed on your device. For more support, refer to the official docs: https://docs.docker.com/desktop/.
-CD into the main directory:
+Cd into the main directory:
 ```bash
 cd Daily-Update
 ```
@@ -137,7 +137,7 @@ docker run --rm --env-file .env daily-update:latest
 ### Automation
 
 If you have an unused device, like a raspberry pi, you can save the docker image locally and run the container on a schedule using your os's scheduling tools.
-There are many scheduling services; I use Cron for Linux machines; Launchd is native to Mac and preferred over Cron; and Task Scheduler on Windows which used a GUI. 
+There are many scheduling services; I use Cron for Linux machines; Launchd is native to Mac and preferred over Cron; and Task Scheduler on Windows which uses a GUI. 
 
 ```bash
 # To open crontab in linux
@@ -151,7 +151,7 @@ crontab -e
 
 ## :warning: License
 
-Distributed under the MIT licence. Reference LICENCE for more info.
+Distributed under the MIT license. Reference LICENSE for more info.
 
 ## :speech_balloon: Contact
 
